@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 import pygame as pg
 
@@ -10,6 +11,7 @@ DELTA = {  # 移動量辞書
     pg.K_LEFT: (-5, 0),
     pg.K_RIGHT: (+5, 0),
 } 
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -20,6 +22,12 @@ def main():
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 2.0)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
+    enn = pg.Surface((20, 20))
+    pg.draw.circle(enn, (255, 0, 0), (10, 10), 10)
+    enn.set_colorkey((0, 0, 0))
+    enn_rct = enn.get_rect()
+    enn_rct.center = random.randint(0, WIDTH),random.randint(0, HEIGHT)
+    vx, vy = 5, 5  # 移動速度
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -36,6 +44,8 @@ def main():
                 sum_mv[1] += v[1]
         kk_rct.move_ip(sum_mv)
         screen.blit(kk_img, kk_rct)
+        enn_rct.move_ip(vx, vy)
+        screen.blit(enn, enn_rct)
         pg.display.update()
         tmr += 1
         clock.tick(50)
