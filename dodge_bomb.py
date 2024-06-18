@@ -48,6 +48,14 @@ def way(kk_img: pg.image) ->dict:
 def addiction(tmr):
     accs = [a for a in range(1, 11)]
 
+def gameover(screen):
+    rect = pg.Surface(WIDTH, HEIGHT)
+    fonto = pg.font.Font(None, 80)
+    txt = fonto.render("GAME OVER", True, (255, 255, 255))
+    pg.draw.rect(rect, (255, 255, 255), (WIDTH, HEIGHT))
+    rect.set_alpha(50)
+    screen.blit(txt, [300, 200])
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -64,7 +72,6 @@ def main():
     enn_rct = enn.get_rect()
     enn_rct.center = random.randint(0, WIDTH),random.randint(0, HEIGHT)
     vx, vy = +5, +5  # 移動速度
-
     clock = pg.time.Clock()
     tmr = 0
     accs = [a for a in range(1, 11)]
