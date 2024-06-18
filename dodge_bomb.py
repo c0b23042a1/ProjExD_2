@@ -27,8 +27,12 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
-def way(kk_img):
-    kk_way = {  # 方向
+def way(kk_img: pg.image) ->dict:
+    """
+    引数: こうかとんimage
+    戻り値: 辞書
+    """
+    kk_way = { 
         (0, 0): kk_img,
         (-5, 0): pg.transform.rotozoom(kk_img, 0, 1.0),
         (-5, 5): pg.transform.rotozoom(kk_img, 45, 1.0),
@@ -40,6 +44,10 @@ def way(kk_img):
         (-5, -5): pg.transform.rotozoom(kk_img, 315, 1.0),
     }
     return kk_way
+
+def addiction(tmr):
+    accs = [a for a in range(1, 11)]
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -56,8 +64,14 @@ def main():
     enn_rct = enn.get_rect()
     enn_rct.center = random.randint(0, WIDTH),random.randint(0, HEIGHT)
     vx, vy = +5, +5  # 移動速度
+
     clock = pg.time.Clock()
     tmr = 0
+    accs = [a for a in range(1, 11)]
+    for r in range(1, 11):
+        enn = pg.Surface((20*r, 20*r))
+        pg.draw.circle(enn, (255, 0, 0), (10*r, 10*r), 10*r)
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -73,7 +87,7 @@ def main():
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
 
-        kk_img = kk_way.get(tuple(sum_mv), kk_img)
+        kk_img = kk_way.get(tuple(sum_mv), kk_img)  # kk_imgの更新
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
