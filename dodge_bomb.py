@@ -45,10 +45,10 @@ def way(kk_img: pg.image) ->dict:
     }
     return kk_way
 
-def addiction(tmr):
+def addiction(tmr):  # 未完成
     accs = [a for a in range(1, 11)]
 
-def gameover(screen):
+def gameover(screen):  # 未完成
     rect = pg.Surface(WIDTH, HEIGHT)
     fonto = pg.font.Font(None, 80)
     txt = fonto.render("GAME OVER", True, (255, 255, 255))
