@@ -27,6 +27,19 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
+def way(kk_img):
+    kk_way = {  # 方向
+        (0, 0): kk_img,
+        (-5, 0): pg.transform.rotozoom(kk_img, 0, 1.0),
+        (-5, 5): pg.transform.rotozoom(kk_img, 45, 1.0),
+        (0, -5): pg.transform.flip(pg.transform.rotozoom(kk_img, 90, 1.0), False, True),
+        (5, -5): pg.transform.flip(pg.transform.rotozoom(kk_img, 135, 1.0), False, True),
+        (5, 0): pg.transform.flip(pg.transform.rotozoom(kk_img, 180, 1.0), False, True),
+        (5, 5): pg.transform.flip(pg.transform.rotozoom(kk_img, 225, 1.0), False, True),
+        (0, 5): pg.transform.flip(pg.transform.rotozoom(kk_img, 270, 1.0), False, True),
+        (-5, -5): pg.transform.rotozoom(kk_img, 315, 1.0),
+    }
+    return kk_way
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -35,20 +48,22 @@ def main():
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 2.0)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
+    kk_way = way(kk_img)
+
     enn = pg.Surface((20, 20))
     pg.draw.circle(enn, (255, 0, 0), (10, 10), 10)
     enn.set_colorkey((0, 0, 0))
     enn_rct = enn.get_rect()
     enn_rct.center = random.randint(0, WIDTH),random.randint(0, HEIGHT)
-    vx, vy = 5, 5  # 移動速度
+    vx, vy = +5, +5  # 移動速度
     clock = pg.time.Clock()
     tmr = 0
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-            if kk_rct.colliderect(enn_rct): #  衝突判定
-                return #  
+        if kk_rct.colliderect(enn_rct): #  衝突判定
+            return #  gemeover
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
@@ -57,6 +72,8 @@ def main():
             if key_lst[k]:
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
+
+        kk_img = kk_way.get(tuple(sum_mv), kk_img)
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
